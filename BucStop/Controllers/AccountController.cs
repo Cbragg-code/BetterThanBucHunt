@@ -18,6 +18,8 @@ namespace BucStop.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        // This method passes a ClaimsPrincipal to sign in using cookies. The user's information will
+        // be stored in their browser rather than on the server side. 
         public async Task<IActionResult> Login(string email)
         {
             if (Regex.IsMatch(email, @"\b[A-Za-z0-9._%+-]+@etsu\.edu\b"))

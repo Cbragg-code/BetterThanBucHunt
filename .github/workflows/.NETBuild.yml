@@ -30,5 +30,8 @@ jobs:
       run: |
         dotnet run --project BucStop/BucStop.csproj --urls "https://localhost:7182" &
 
+    - name: Check application status
+      run: curl -k https://localhost:7182 || echo "Application did not respond as expected."
+        
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj

@@ -47,12 +47,6 @@ jobs:
         sudo systemctl daemon-reload
         sudo systemctl start bucstop.service
 
-    # Wait for BucStop to be ready
-    - name: Wait for BucStop to start
-      run: |
-        sleep 10 # Adjust sleep time as needed
-        curl --retry 10 --retry-delay 5 --retry-connrefused --retry-max-time 60 --retry-all-errors http://localhost:7182/
-
     # Run regression tests
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj

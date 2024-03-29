@@ -29,8 +29,6 @@ jobs:
     - name: Start BucStop
       run: dotnet run --project BucStop/BucStop.csproj &
       # The & at the end runs the command in the background.
-      # Make sure to adjust the path to where your main project is located.
 
     - name: Run Regression Tests
-      run: dotnet test BucStop/tests
-      # Adjust the path to your test project as necessary.
+      run: dotnet test BucStop/Tests/RegressionTest.cs

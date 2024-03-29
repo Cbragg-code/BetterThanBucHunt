@@ -45,20 +45,12 @@ jobs:
         [Install]
         WantedBy=multi-user.target" > $GITHUB_WORKSPACE/bucstop.service
 
-    # Debug: Print the contents of the service file
-    - name: Debug: Print BucStop service file
-      run: cat $GITHUB_WORKSPACE/bucstop.service
-
     # Start BucStop application using systemd
     - name: Start BucStop
       run: |
         sudo cp $GITHUB_WORKSPACE/bucstop.service /etc/systemd/system/bucstop.service
         sudo systemctl daemon-reload
         sudo systemctl start bucstop.service
-        
-    # Debug: Check BucStop service status
-    - name: Debug: Check BucStop service status
-      run: systemctl status bucstop.service --no-pager
 
     # Wait for BucStop to be ready
     - name: Wait for BucStop to start
@@ -70,4 +62,5 @@ jobs:
     # Run regression tests
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj
+
 

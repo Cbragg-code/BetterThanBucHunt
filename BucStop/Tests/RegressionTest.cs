@@ -17,9 +17,8 @@ namespace BucStop.Tests
         {
             var options = new ChromeOptions();
             options.AddArgument("--headless"); // Running Chrome in headless mode.
-            options.AddArgument("--disable-gpu"); // Applicable to Windows OS only.
-            options.AddArgument("--window-size=1920,1080"); // Specify window size.
-
+            //options.AddArgument("--disable-gpu"); // Applicable to Windows OS only.
+            options.AddArgument("--ignore-certificate-errors");
             driver = new ChromeDriver(options);
         }
 

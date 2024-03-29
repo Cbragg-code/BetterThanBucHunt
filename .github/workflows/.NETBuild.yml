@@ -31,4 +31,4 @@ jobs:
       # The & at the end runs the command in the background.
 
     - name: Run Regression Tests
-      run: dotnet test BucStop/Tests/RegressionTest.cs
+      run: dotnet test BucStop/BucStop.csproj

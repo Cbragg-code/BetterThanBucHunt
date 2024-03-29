@@ -1,4 +1,4 @@
-name: .NET Build, Run, and Test
+name: .NET Build and Test
 
 on:
   pull_request:
@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -23,20 +23,36 @@ jobs:
       with:
         dotnet-version: 6.x
     
+    # Build the project
     - name: Build the project
       run: dotnet build BucStop
 
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    
+    # Start BucStop application using systemd
     - name: Start BucStop
-      run: dotnet run --project BucStop/BucStop.csproj --urls "https://localhost:7182/"
-      
-    # Run Regression Tests
+      run: |
+        echo "[Unit]
+        Description=BucStop
+
+        [Service]
+        WorkingDirectory=$GITHUB_WORKSPACE/BucStop
+        ExecStart=/usr/bin/dotnet run --urls http://localhost:7182/
+        Restart=always
+        RestartSec=10
+        KillSignal=SIGINT
+        SyslogIdentifier=BucStop
+        User=$USER
+
+        [Install]
+        WantedBy=multi-user.target" > /etc/systemd/system/bucstop.service
+        sudo systemctl daemon-reload
+        sudo systemctl start bucstop.service
+
+    # Wait for BucStop to be ready
+    - name: Wait for BucStop to start
+      run: |
+        sleep 10 # Adjust sleep time as needed
+        curl --retry 10 --retry-delay 5 --retry-connrefused --retry-max-time 60 --retry-all-errors http://localhost:7182/
+
+    # Run regression tests
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj
-

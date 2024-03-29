@@ -28,7 +28,7 @@ jobs:
       
     - name: Start BucStop
       run: |
-        dotnet run --project BucStop/BucStop.csproj --urls "https://localhost:7182" &
+        dotnet run --project BucStop/BucStop.csproj --urls "https://localhost:7182/" &
         sleep 10
         
     - name: Run Regression Tests

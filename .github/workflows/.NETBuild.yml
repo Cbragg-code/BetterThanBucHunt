@@ -28,8 +28,7 @@ jobs:
       
     - name: Start BucStop
       run: |
-        dotnet run --project BucStop/BucStop.csproj --urls "https://localhost:7182/" &
-      # This starts the server in the background and waits until it's responsive.
+        dotnet run --project BucStop/BucStop.csproj --urls "https://localhost:7182" &
 
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj

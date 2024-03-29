@@ -15,7 +15,10 @@ namespace BucStop.Tests
         [SetUp]
         public void SetUp()
         {
+            var options = new ChromeOptions();
+            options.AddArgument("--headless");
             driver = new ChromeDriver();
+            
         }
 
         [TearDown]

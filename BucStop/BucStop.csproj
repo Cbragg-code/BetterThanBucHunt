@@ -13,7 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Tests\" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="wwwroot\images\background.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Tests\" />
+  </ItemGroup>
 </Project>

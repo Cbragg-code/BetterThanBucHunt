@@ -29,10 +29,6 @@ jobs:
     - name: Start BucStop
       run: |
         dotnet run --project BucStop/BucStop.csproj --urls "https://localhost:7182/" &
-        echo "Waiting for BucStop to start..."
-        while ! curl --output /dev/null --silent --head --fail https://localhost:7182/; do
-          sleep 5
-        done
       # This starts the server in the background and waits until it's responsive.
 
     - name: Run Regression Tests

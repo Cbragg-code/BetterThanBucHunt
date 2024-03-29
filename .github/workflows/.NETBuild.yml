@@ -29,28 +29,9 @@ jobs:
     - name: Build the project
       run: dotnet build BucStop
 
-    # Write BucStop service file to the repository directory
-    - name: Write BucStop service file
-      run: |
-        echo "[Unit]
-        Description=BucStop
-        [Service]
-        WorkingDirectory=$GITHUB_WORKSPACE/BucStop
-        ExecStart=/usr/bin/dotnet run --urls http://localhost:7182/
-        Restart=always
-        RestartSec=10
-        KillSignal=SIGINT
-        SyslogIdentifier=BucStop
-        User=$USER
-        [Install]
-        WantedBy=multi-user.target" > $GITHUB_WORKSPACE/bucstop.service
-
-    # Start BucStop application using systemd
+    # Start BucStop application
     - name: Start BucStop
-      run: |
-        sudo cp $GITHUB_WORKSPACE/bucstop.service /etc/systemd/system/bucstop.service
-        sudo systemctl daemon-reload
-        sudo systemctl start bucstop.service
+      run: dotnet run --project BucStop/BucStop.csproj --urls "http://localhost:7182/" &
 
     # Wait for BucStop to be ready
     - name: Wait for BucStop to start
@@ -62,5 +43,3 @@ jobs:
     # Run regression tests
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj
-
-

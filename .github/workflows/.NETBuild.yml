@@ -36,12 +36,6 @@ jobs:
     - name: Start BucStop
       run: dotnet run --project BucStop/BucStop.csproj --urls "https://localhost:7182/"
 
-    # Wait for the application to be ready before proceeding
-    - name: Wait for BucStop to start
-      run: |
-        sleep 10 # Adjust sleep time as needed
-        curl --retry 10 --retry-delay 5 --retry-connrefused --retry-max-time 60 --retry-all-errors http://localhost:7182/
-
   test:
     runs-on: ubuntu-latest
     needs: run

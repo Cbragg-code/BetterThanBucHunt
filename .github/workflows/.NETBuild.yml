@@ -34,7 +34,6 @@ jobs:
       run: |
         echo "[Unit]
         Description=BucStop
-
         [Service]
         WorkingDirectory=$GITHUB_WORKSPACE/BucStop
         ExecStart=/usr/bin/dotnet run --urls http://localhost:7182/
@@ -43,9 +42,12 @@ jobs:
         KillSignal=SIGINT
         SyslogIdentifier=BucStop
         User=$USER
-
         [Install]
         WantedBy=multi-user.target" > $GITHUB_WORKSPACE/bucstop.service
+
+    # Debug: Print the contents of the service file
+    - name: Debug: Print BucStop service file
+      run: cat $GITHUB_WORKSPACE/bucstop.service
 
     # Start BucStop application using systemd
     - name: Start BucStop
@@ -54,6 +56,17 @@ jobs:
         sudo systemctl daemon-reload
         sudo systemctl start bucstop.service
         
+    # Debug: Check BucStop service status
+    - name: Debug: Check BucStop service status
+      run: systemctl status bucstop.service --no-pager
+
+    # Wait for BucStop to be ready
+    - name: Wait for BucStop to start
+      run: |
+        echo "Waiting for BucStop to start..."
+        sleep 20  # Adjust sleep time as needed
+        curl --retry 10 --retry-delay 5 --retry-connrefused --retry-max-time 60 --retry-all-errors http://localhost:7182/ || true  # Use || true to prevent workflow failure if curl fails
+
     # Run regression tests
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj

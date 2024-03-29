@@ -25,3 +25,20 @@ jobs:
     
     - name: Build the project
       run: dotnet build BucStop
+      
+    - name: Start BucStop
+      run: dotnet run --project BucStop/BucStop.csproj &
+      # The & at the end runs the command in the background.
+      # Make sure to adjust the path to where your main project is located.
+
+    - name: Wait for BucStop to be ready
+      run: |
+        while ! curl --output /dev/null --silent --head --fail http://localhost:5000; do
+          echo "Waiting for BucStop to be ready..."
+          sleep 5
+        done
+      # Adjust the URL to the one BucStop listens on. This step assumes BucStop starts a web server.
+
+    - name: Run Regression Tests
+      run: dotnet test BucStop/tests
+      # Adjust the path to your test project as necessary.

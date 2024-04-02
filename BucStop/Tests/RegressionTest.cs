@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using NUnit.Framework;
 using BucStop.Services;
-//this is a test
+
 namespace BucStop.Tests
 {
 
@@ -61,7 +61,9 @@ namespace BucStop.Tests
             PerformLogin("Test@etsu.edu");
             //ValidateAccessCode("123456");
 
-            Assert.That(new Uri(driver.Url).Equals("https://localhost:7182/"));
+            //attempting to break the test.
+            Assert.That(new Uri(driver.Url).Equals("https://localhost:0000/"));
+            //Assert.That(new Uri(driver.Url).Equals("https://localhost:7182/"));
         }
 
         // Add more test methods for different scenarios

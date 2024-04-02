@@ -37,7 +37,7 @@ jobs:
       shell: pwsh
     
     - name: Setup ChromeDriver
-      uses: nanasess/setup-chromedriver@master
+      uses: nanasess/setup-chromedriver@PBI-143
       with:
         chromedriver-version: 'latest'
     # Wait for BucStop to be ready

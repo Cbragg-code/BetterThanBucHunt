@@ -62,8 +62,9 @@ namespace BucStop.Tests
             //ValidateAccessCode("123456");
 
             //attempting to break the test.
-            Assert.That(new Uri(driver.Url).Equals("https://localhost:0000/"));
-            //Assert.That(new Uri(driver.Url).Equals("https://localhost:7182/"));
+            //Assert.That(new Uri(driver.Url).Equals("https://localhost:0000/"));
+
+            Assert.That(new Uri(driver.Url).Equals("https://localhost:7182/"));
         }
 
         // Add more test methods for different scenarios

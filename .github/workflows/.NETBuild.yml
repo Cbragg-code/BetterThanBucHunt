@@ -33,8 +33,7 @@ jobs:
 
     # Start BucStop application
     - name: Start BucStop
-      run: dotnet run --project BucStop/BucStop.csproj --urls "http://localhost:7182/" &
-      shell: pwsh
+      run: dotnet run --project BucStop/BucStop.csproj &
       
     # Wait for BucStop to be ready
     - name: Wait for BucStop to start

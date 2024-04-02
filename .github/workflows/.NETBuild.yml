@@ -35,11 +35,7 @@ jobs:
     - name: Start BucStop
       run: dotnet run --project BucStop/BucStop.csproj --urls "http://localhost:7182/" &
       shell: pwsh
-    
-    - name: Setup ChromeDriver
-      uses: nanasess/setup-chromedriver@PBI-143
-      with:
-        chromedriver-version: 'latest'
+      
     # Wait for BucStop to be ready
     - name: Wait for BucStop to start
       run: |

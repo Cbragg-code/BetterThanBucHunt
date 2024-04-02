@@ -14,7 +14,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15  # Increase timeout duration
     
     steps:
     - name: Checkout
@@ -25,6 +24,9 @@ jobs:
       with:
         dotnet-version: 6.x
     
+    - name: Restore dependencies
+      run: dotnet restore
+    
     # Build the project
     - name: Build the project
       run: dotnet build BucStop
@@ -32,7 +34,12 @@ jobs:
     # Start BucStop application
     - name: Start BucStop
       run: dotnet run --project BucStop/BucStop.csproj --urls "http://localhost:7182/" &
-
+      shell: pwsh
+    
+    - name: Setup ChromeDriver
+      uses: nanasess/setup-chromedriver@master
+      with:
+        chromedriver-version: 'latest'
     # Wait for BucStop to be ready
     - name: Wait for BucStop to start
       run: |

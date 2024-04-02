@@ -1,14 +1,10 @@
 name: .NET Build and Test
 
 on:
-  pull_request:
-    branches: 
-      - dev
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - edited
+  push:
+    branches:
+      - PBI-143  # This specifies that the workflow runs on pushes to the Testing branch.
+
   workflow_dispatch:
   
 jobs:

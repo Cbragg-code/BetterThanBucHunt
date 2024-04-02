@@ -6,7 +6,7 @@
 **/.project
 **/.settings
 **/.toolstarget
-**/*.json
+**/playcount
 **/.vs
 **/.vscode
 **/*.*proj.user

@@ -8,8 +8,24 @@
     {
         <div class="col-sm-3 d-flex">
             <div class="card">
-                <img src="@game.Thumbnail" class="card-img-top">
+                <div class="popup" onclick="myFunction('@game.Id')">
+                    <img src="@game.Thumbnail" class="card-img-top">
+                    <h5 class="card-title">@game.Title</h5>
+                    <span class="popuptext" id="popup-@game.Id">
+                        <a href="@Url.Action("Play", "Games", new { id = game.Id })" style="text-decoration: none;">
+                            Play
+                        </a>
+                        <p class="card-text"><small class="text-muted">@game.Description</small></p>
+                        <p class="text-muted">Play Count: @game.PlayCount</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!--
+        <div class="col-sm-3 d-flex">
+            <div class="card">
                 <div class="popup" onclick="myFunction()">
+                    <img src="@game.Thumbnail" class="card-img-top">
                     <h5 class="card-title">@game.Title</h5>
                     <span class="popuptext" id="myPopup">
                         <a href="@Url.Action("Play", "Games", new { id = game.Id })" style="text-decoration: none;">
@@ -20,13 +36,20 @@
                     </span>
                 </div>
             </div>
-        </div>
+        </div>-->
     }
 </div>
 <script>
     // When the user clicks on <div>, open the popup
-    function myFunction() {
-        var popup = document.getElementById("myPopup");
+    function myFunction(gameId) {
+        // Close all popups first
+        var popups = document.getElementsByClassName("popuptext");
+        for (var i = 0; i < popups.length; i++) {
+            popups[i].classList.remove("show");
+        }
+
+        // Then open the popup associated with the clicked game
+        var popup = document.getElementById("popup-" + gameId);
         popup.classList.toggle("show");
     }
 </script>

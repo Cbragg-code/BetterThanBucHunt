@@ -35,13 +35,6 @@ jobs:
     - name: Start BucStop
       run: dotnet run --project BucStop/BucStop.csproj &
       
-    # Wait for BucStop to be ready
-    - name: Wait for BucStop to start
-      run: |
-        echo "Waiting for BucStop to start..."
-        sleep 20  # Adjust sleep time as needed
-        curl --retry 10 --retry-delay 5 --retry-connrefused --retry-max-time 60 --retry-all-errors http://localhost:7182/ || true  # Use || true to prevent workflow failure if curl fails
-
     # Run regression tests
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj

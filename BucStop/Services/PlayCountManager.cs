@@ -17,6 +17,7 @@ namespace BucStop.Services
         {
             this.games = games;
             jsonFilePath = Path.Combine(webHostEnvironment.WebRootPath, "playcount.json");
+            jsonFilePath = "..\\BucStop\\wwwroot\\playcount.json";
             LoadPlayCounts();
         }
 

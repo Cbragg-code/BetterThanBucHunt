@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  build-and-run:
+  build:
     runs-on: ubuntu-latest
     
     steps:
@@ -27,15 +27,11 @@ jobs:
     - name: Build BucStop
       run: dotnet build BucStop
 
-    # Start BucStop
-    - name: Start BucStop
-      run: dotnet run --project BucStop/BucStop.csproj &
-
   run-tests:  
     runs-on: ubuntu-latest
     
     # ensures that this only runs when build-and-run is complete
-    needs: build-and-run
+    needs: build
     
     steps:
     - name: Checkout
@@ -45,7 +41,14 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.x
-    
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    # Start BucStop
+    - name: Start BucStop
+      run: dotnet run --project BucStop/BucStop.csproj &
+      
     # Run regression tests
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj

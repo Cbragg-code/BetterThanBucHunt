@@ -37,7 +37,7 @@ namespace BucStop.Tests
             driver.Quit();
         }
 
-        [Test, Order(1)]
+        [Test]
         public void Login()
         {
             var loginPage = new LoginPage(driver);
@@ -52,21 +52,18 @@ namespace BucStop.Tests
             navigatePage.AssertCurrentPage("Games");
         }
 
-        [Test, Order(3)]
         public void AUP()
         {
             navigatePage.NavigateTo("Home/AUP");
             navigatePage.AssertCurrentPage("Home/AUP");
         }
 
-        [Test, Order(4)]
         public void GameCriteria()
         {
             navigatePage.NavigateTo("Home/GameCriteria");
             navigatePage.AssertCurrentPage("Home/GameCriteria");
         }
 
-        [Test, Order(5)]
         public void About()
         {
             navigatePage.NavigateTo("Home/About");

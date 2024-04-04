@@ -1,9 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 
-/// <summary>
-/// Provides methods for navigating within the BucStop application and asserting the current page.
-/// </summary>
 public class NavigatePage
 {
     private readonly IWebDriver driver;

@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  build-and-test:
+  bucstop-regression-test:
     runs-on: ubuntu-latest
     
     steps:

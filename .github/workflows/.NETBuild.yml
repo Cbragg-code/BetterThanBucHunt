@@ -1,4 +1,4 @@
-name: .NET Build and Test
+name: BucStop Testing
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  build-and-test:
+  build-and-run:
     runs-on: ubuntu-latest
     
     steps:
@@ -23,14 +23,29 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     
-    # Build the project
-    - name: Build the project
+    # Build BucStop
+    - name: Build BucStop
       run: dotnet build BucStop
 
-    # Start BucStop application
+    # Start BucStop
     - name: Start BucStop
       run: dotnet run --project BucStop/BucStop.csproj &
-      
+
+  run-tests:  
+    runs-on: ubuntu-latest
+    
+    # ensures that this only runs when build-and-run is complete
+    needs: build-and-run
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.x
+    
     # Run regression tests
     - name: Run Regression Tests
       run: dotnet test BucStop/BucStop.csproj

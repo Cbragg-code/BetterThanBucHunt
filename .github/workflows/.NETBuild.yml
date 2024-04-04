@@ -31,6 +31,6 @@ jobs:
     - name: Start BucStop
       run: dotnet run --project BucStop/BucStop.csproj &
       
-    # Run regression tests
-    - name: Run Regression Tests
+    # Run regression test
+    - name: Run Regression Test
       run: dotnet test BucStop/BucStop.csproj

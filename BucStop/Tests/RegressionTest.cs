@@ -1,72 +1,76 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using NUnit.Framework;
-using BucStop.Services;
 
 namespace BucStop.Tests
 {
-
+    /// <summary>
+    /// Contains regression tests for the BucStop application.
+    /// </summary>
     [TestFixture]
     public class RegressionTest
     {
-        public AccessCode accessCode;
         private IWebDriver driver;
+        private NavigatePage navigatePage;
+        private readonly string baseUrl = "https://localhost:7182/";
 
+        /// <summary>
+        /// Setup method to initialize the WebDriver and NavigatePage before each test.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             var options = new ChromeOptions();
-            options.AddArgument("--headless"); // Running Chrome in headless mode.
-            //options.AddArgument("--disable-gpu"); // Applicable to Windows OS only.
-            options.AddArgument("--ignore-certificate-errors");
+            options.AddArgument("--headless"); // Run Chrome in headless mode for testing.
+            options.AddArgument("--ignore-certificate-errors"); // Ignore SSL certificate errors.
             driver = new ChromeDriver(options);
+            driver.Navigate().GoToUrl(baseUrl); // Navigate to the base URL of the application.
+            navigatePage = new NavigatePage(driver, baseUrl); // Initialize NavigatePage object.
         }
 
+        /// <summary>
+        /// Tear down method to quit the WebDriver after each test.
+        /// </summary>
         [TearDown]
         public void TearDown()
         {
             driver.Quit();
         }
 
-        private void NavigateToLoginPage()
+        [Test, Order(1)]
+        public void Login()
         {
-            driver.Url = "https://localhost:7182/";
-            var loginPage = driver.FindElement(By.Id("login"));
-            loginPage.Click();
+            var loginPage = new LoginPage(driver);
+            navigatePage.NavigateTo("Account/Login");
+            loginPage.PerformLogin("Test@etsu.edu");
+            navigatePage.AssertCurrentPage("");
         }
 
-        private void PerformLogin(string email)
+        public void Games()
         {
-            var emailForm = driver.FindElement(By.Id("email"));
-            //var loginButton = driver.FindElement(By.Id("loginButton"));
-            emailForm.SendKeys(email);
-            emailForm.Submit();
-            //loginButton.Click();
-        }
-        /*
-        private void ValidateAccessCode(string code)
-        {
-            var codeForm = driver.FindElement(By.Name("accessCode"));
-            codeForm.SendKeys(code);
-            codeForm.Submit();
-        }
-        */
-
-        [Test]
-        public void LoginWithValidCredentials()
-        {
-            //string code = accessCode.ToString();
-            //accessCode = new AccessCode("member@etsu.edu");
-            NavigateToLoginPage();
-            PerformLogin("Test@etsu.edu");
-            //ValidateAccessCode("123456");
-
-            //attempting to break the test.
-            //Assert.That(new Uri(driver.Url).Equals("https://localhost:0000/"));
-
-            Assert.That(new Uri(driver.Url).Equals("https://localhost:7182/"));
+            navigatePage.NavigateTo("Games");
+            navigatePage.AssertCurrentPage("Games");
         }
 
-        // Add more test methods for different scenarios
+        [Test, Order(3)]
+        public void AUP()
+        {
+            navigatePage.NavigateTo("Home/AUP");
+            navigatePage.AssertCurrentPage("Home/AUP");
+        }
+
+        [Test, Order(4)]
+        public void GameCriteria()
+        {
+            navigatePage.NavigateTo("Home/GameCriteria");
+            navigatePage.AssertCurrentPage("Home/GameCriteria");
+        }
+
+        [Test, Order(5)]
+        public void About()
+        {
+            navigatePage.NavigateTo("Home/About");
+            navigatePage.AssertCurrentPage("Home/About");
+        }
     }
 }

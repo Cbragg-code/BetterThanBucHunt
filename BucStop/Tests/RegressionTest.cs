@@ -1,6 +1,4 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace BucStop.Tests
 {
@@ -8,66 +6,42 @@ namespace BucStop.Tests
     /// Contains regression tests for the BucStop application.
     /// </summary>
     [TestFixture]
-    public class RegressionTest
+    public class RegressionTest : TestSetup
     {
-        private IWebDriver driver;
-        private NavigatePage navigatePage;
-        private readonly string baseUrl = "https://localhost:7182/";
+        private TestActions actions;
 
         /// <summary>
-        /// Setup method to initialize the WebDriver and NavigatePage before each test.
+        /// Overrides the SetUp method from the TestSetup class.
+        /// This method is called before each test method runs.
         /// </summary>
-        [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
-            var options = new ChromeOptions();
-            options.AddArgument("--headless"); // Run Chrome in headless mode for testing.
-            options.AddArgument("--ignore-certificate-errors"); // Ignore SSL certificate errors.
-            driver = new ChromeDriver(options);
-            driver.Navigate().GoToUrl(baseUrl); // Navigate to the base URL of the application.
-            navigatePage = new NavigatePage(driver, baseUrl); // Initialize NavigatePage object.
+            base.SetUp();
+            actions = new TestActions(driver, baseUrl);
         }
 
         /// <summary>
-        /// Tear down method to quit the WebDriver after each test.
+        /// Navigates BucStop and tests functionality.
         /// </summary>
-        [TearDown]
-        public void TearDown()
-        {
-            driver.Quit();
-        }
 
         [Test]
-        public void Login()
+        public void RegTest()
         {
-            var loginPage = new LoginPage(driver);
-            navigatePage.NavigateTo("Account/Login");
-            loginPage.PerformLogin("Test@etsu.edu");
-            navigatePage.AssertCurrentPage("");
-        }
+            actions.NavigateTo("Account/Login");
+            actions.PerformLogin("Test@etsu.edu");
+            actions.AssertCurrentPage(""); // Home page
 
-        public void Games()
-        {
-            navigatePage.NavigateTo("Games");
-            navigatePage.AssertCurrentPage("Games");
-        }
+            actions.NavigateTo("Games");
+            actions.AssertCurrentPage("Games");
 
-        public void AUP()
-        {
-            navigatePage.NavigateTo("Home/AUP");
-            navigatePage.AssertCurrentPage("Home/AUP");
-        }
+            actions.NavigateTo("Home/AUP");
+            actions.AssertCurrentPage("Home/AUP");
 
-        public void GameCriteria()
-        {
-            navigatePage.NavigateTo("Home/GameCriteria");
-            navigatePage.AssertCurrentPage("Home/GameCriteria");
-        }
+            actions.NavigateTo("Home/GameCriteria");
+            actions.AssertCurrentPage("Home/GameCriteria");
 
-        public void About()
-        {
-            navigatePage.NavigateTo("Home/About");
-            navigatePage.AssertCurrentPage("Home/About");
+            actions.NavigateTo("Home/About");
+            actions.AssertCurrentPage("Home/About");
         }
     }
 }

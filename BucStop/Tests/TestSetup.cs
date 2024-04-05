@@ -7,7 +7,7 @@ namespace BucStop.Tests
     public class TestSetup
     {
         protected IWebDriver driver;
-        protected readonly string baseUrl = "https://localhost:7182/";
+        protected readonly string baseUrl = Environment.GetEnvironmentVariable("SSH_HOST") ?? "https://localhost:7182/";
 
         /// <summary>
         /// Immediately before each test initialize the driver and options.
@@ -17,7 +17,7 @@ namespace BucStop.Tests
         {
             var options = new ChromeOptions();
             options.AddArgument("--headless"); // Make Chrome run without a GUI
-            options.AddArgument("--ignore-certificate-errors"); //ignore any untrusted certificate errors
+            options.AddArgument("--ignore-certificate-errors"); //Ignore any untrusted certificate errors
             driver = new ChromeDriver(options);
             driver.Navigate().GoToUrl(baseUrl);
         }

@@ -3,7 +3,7 @@ name: BucStop Testing
 on:
   push:
     branches:
-      - Prod  # This specifies that the workflow runs on pushes to the Testing branch.
+      - Prod
   
   pull_request:
     types: [opened]

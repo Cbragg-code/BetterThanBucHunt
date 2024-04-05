@@ -17,6 +17,7 @@ namespace BucStop.Tests
         {
             var options = new ChromeOptions();
             options.AddArgument("--headless"); // Make Chrome run without a GUI
+            options.AddArgument("--ignore-certificate-errors"); //ignore any untrusted certificate errors
             driver = new ChromeDriver(options);
             driver.Navigate().GoToUrl(baseUrl);
         }

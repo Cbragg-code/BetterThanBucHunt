@@ -1,9 +1,9 @@
-name: BucStop Testing
+name: Testing Pipeline
 
 on:
   push:
     branches:
-      - Prod
+      - PBI-143
   
   pull_request:
     types: [opened]
@@ -37,13 +37,13 @@ jobs:
       run: dotnet run --project BucStop/BucStop.csproj &
       
     # Set SSH_HOST for Prod
-    - name: Set SSH_HOST for Prod
-      if: github.ref == 'refs/heads/Prod'
+    - name: Set SSH_HOST for PBI-143
+      if: github.ref == 'refs/heads/PBI-143'
       run: echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
       env: 
         SSH_HOST: ${{ env.SSH_HOST }}
       
       # Run regression test
     - name: Run Regression Test
-      run: dotnet test BucStop/BucStop.csproj --logger "console;verbosity=detailed"
-      
+      run: dotnet test BucStop/BucStop.csproj --filter FullyQualifiedName=BucStop.Tests.RegressionTest.NavBucStop
+

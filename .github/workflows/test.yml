@@ -1,4 +1,4 @@
-name: BucStop Testing
+name: Testing Pipeline
 
 on:
   push:

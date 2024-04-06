@@ -25,7 +25,7 @@ namespace BucStop.Tests
         /// </summary>
 
         [Test]
-        public void RegTest()
+        public void NavBucStop()
         {
             actions.NavigateTo("Account/Login");
             actions.PerformLogin("Test@etsu.edu");

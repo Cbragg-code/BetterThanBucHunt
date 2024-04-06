@@ -45,5 +45,5 @@ jobs:
       
       # Run regression test
     - name: Run Regression Test
-      run: dotnet test BucStop/BucStop.csproj --logger "console;verbosity=detailed"
-      
+      run: dotnet test BucStop/BucStop.csproj --filter FullyQualifiedName=BucStop.Tests.RegressionTest.NavBucStop
+

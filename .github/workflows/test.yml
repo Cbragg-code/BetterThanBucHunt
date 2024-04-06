@@ -36,13 +36,6 @@ jobs:
     - name: Start BucStop
       run: dotnet run --project BucStop/BucStop.csproj &
       
-    # Set SSH_HOST for Prod
-    - name: Set SSH_HOST for PBI-143
-      if: github.ref == 'refs/heads/PBI-143'
-      run: echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
-      env: 
-        SSH_HOST: ${{ env.SSH_HOST }}
-      
       # Run regression test
     - name: Run Regression Test
       run: dotnet test BucStop/BucStop.csproj --filter FullyQualifiedName=BucStop.Tests.RegressionTest.NavBucStop

@@ -7,7 +7,7 @@ namespace BucStop.Tests
     public class TestSetup
     {
         protected IWebDriver driver;
-        protected readonly string baseUrl = Environment.GetEnvironmentVariable("SSH_HOST").ToString() ?? "https://localhost:7182/";
+        protected readonly string baseUrl = "https://localhost:7182/";
 
 
         /// <summary>

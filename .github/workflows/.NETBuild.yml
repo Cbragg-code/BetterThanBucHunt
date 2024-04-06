@@ -36,8 +36,14 @@ jobs:
     - name: Start BucStop
       run: dotnet run --project BucStop/BucStop.csproj &
       
-    # Run regression test
-    - name: Run Regression Test
-      run: dotnet test BucStop/BucStop.csproj
+    # Set SSH_HOST for Prod
+    - name: Set SSH_HOST for Prod
+      if: github.ref == 'refs/heads/Prod'
+      run: echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
       env: 
-        SSH_HOST: ${{ if eq(github.ref, 'refs/heads/Prod'), secrets.SSH_HOST, '' }}
+        SSH_HOST: ${{ env.SSH_HOST }}
+      
+      # Run regression test
+    - name: Run Regression Test
+      run: dotnet test BucStop/BucStop.csproj --logger "console;verbosity=detailed"
+      

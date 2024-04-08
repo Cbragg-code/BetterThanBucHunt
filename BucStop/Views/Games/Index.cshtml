@@ -12,6 +12,8 @@
                     <img src="@game.Thumbnail" class="card-img-top">
                     <h5 class="card-title">@game.Title</h5>
                     <span class="popuptext" id="popup-@game.Id">
+                        <span class="close-btn" onclick="closePopup(event, '@game.Id')">X</span>
+                        <br />
                         <a href="@Url.Action("Play", "Games", new { id = game.Id })" style="text-decoration: none;">
                             Play
                         </a>
@@ -40,6 +42,12 @@
     }
 </div>
 <script>
+    function closePopup(event, gameId) {
+        event.stopPropagation(); // Prevent the click event from propagating to the parent div
+        var popup = document.getElementById("popup-" + gameId);
+        popup.classList.remove("show");
+    }
+
     // When the user clicks on <div>, open the popup
     function myFunction(gameId) {
         // Close all popups first

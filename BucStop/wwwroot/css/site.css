@@ -104,17 +104,18 @@ label {
     /* The actual popup (appears on top) */
     .popup .popuptext {
         visibility: hidden;
-        width: 400px;
-        height: 200px;
+        width: 700px;
+        height: 400px;
         background-color: white;
         color: #fff;
         text-align: center;
         border-radius: 6px;
         padding: 8px 0;
-        position: absolute;
+        position: fixed;
         z-index: 1;
-        bottom: 0%;
-        left: 0%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         margin-left: 0px;
         border: solid;
         border-color: black;
@@ -137,6 +138,20 @@ label {
         visibility: visible;
         -webkit-animation: fadeIn 1s;
         animation: fadeIn 1s
+    }
+
+/* close button */
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: red;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+    .close-btn:hover {
+        color: darkred;
     }
 
 /* Add animation (fade in the popup) */

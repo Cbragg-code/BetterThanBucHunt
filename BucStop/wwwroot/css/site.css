@@ -94,7 +94,93 @@ label {
     margin: 0 auto;
 }
 
+/* Popup container */
+.popup {
+    position: relative;
 
+    cursor: pointer;
+}
 
+/* The actual popup (appears on top) */
+.popup .popuptext {
+    visibility: hidden;
+    max-width: 700px;
+    min-width: 300px;
+    width: 80%; 
+    height: 85%;
+    overflow-y: auto; 
+    background-color: white;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: fixed;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-left: 0px;
+    border: solid;
+    border-color: black;
+}
 
-   
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+/* close button */
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: red;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.close-btn:hover {
+    color: darkred;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.preview-image img {
+    width: 100%; 
+    height: auto; 
+}
+
+.leaderboard-items {
+    padding-left: 0; 
+    list-style-position: inside; 
+}
+
+.leaderboard-items li {
+    color: black;
+}
+
+.leaderboard-text {
+    color: black;
+    font-size: 30px;
+}

@@ -1,0 +1,38 @@
+name: Testing Pipeline
+
+on:
+  pull_request:
+    types: [opened]
+    branches:
+      - Dev
+
+  workflow_dispatch:
+  
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    # Build BucStop
+    - name: Build BucStop
+      run: dotnet build BucStop
+
+    # Start BucStop
+    - name: Start BucStop
+      run: dotnet run --project BucStop/BucStop.csproj &
+      
+      # Run regression test
+    - name: Run Regression Test
+      run: dotnet test BucStop/BucStop.csproj --filter FullyQualifiedName=BucStop.Tests.RegressionTest.NavBucStop
+

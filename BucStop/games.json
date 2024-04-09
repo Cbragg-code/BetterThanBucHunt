@@ -5,6 +5,7 @@
     "Content": "/js/snake.js",
     "Description": "Snake Description",
     "Thumbnail": "/images/snake.jpg",
+    "Preview":  "/images/snake-prev.gif",
     "PlayCount": 0
   },
   {
@@ -13,6 +14,7 @@
     "Content": "/js/tetris.js",
     "Description": "Tetris Description",
     "Thumbnail": "/images/tetris.jpg",
+    "Preview": "/images/tetris-prev.gif",
     "PlayCount": 0
   },
   {
@@ -21,6 +23,7 @@
     "Content": "/js/pong.js",
     "Description": "Pong Description",
     "Thumbnail": "/images/pong.jpg",
+    "Preview": "/images/pong-prev.gif",
     "PlayCount": 0
   }
 ]

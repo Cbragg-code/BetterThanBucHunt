@@ -16,7 +16,11 @@ namespace BucStop.Services
         public PlayCountManager(List<Game> games, IWebHostEnvironment webHostEnvironment)
         {
             this.games = games;
-            jsonFilePath = Path.Combine(webHostEnvironment.WebRootPath, "playcount.json");
+            // old file path
+            //jsonFilePath = Path.Combine(webHostEnvironment.WebRootPath, "playcount.json");
+
+            //We used this file path to try and get playcounts to persist
+            jsonFilePath = "playcount.json";
             LoadPlayCounts();
         }
 

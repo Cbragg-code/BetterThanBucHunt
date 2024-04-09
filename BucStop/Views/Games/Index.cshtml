@@ -8,38 +8,49 @@
     {
         <div class="col-sm-3 d-flex">
             <div class="card">
+
                 <div class="popup" onclick="myFunction('@game.Id')">
                     <img src="@game.Thumbnail" class="card-img-top">
                     <h5 class="card-title">@game.Title</h5>
                     <span class="popuptext" id="popup-@game.Id">
                         <span class="close-btn" onclick="closePopup(event, '@game.Id')">X</span>
                         <br />
-                        <a href="@Url.Action("Play", "Games", new { id = game.Id })" style="text-decoration: none;">
-                            Play
-                        </a>
-                        <p class="card-text"><small class="text-muted">@game.Description</small></p>
-                        <p class="text-muted">Play Count: @game.PlayCount</p>
+
+                        <!-- Preview Image Placeholder -->
+                        <div class="preview-image">
+                            <img src="@game.Thumbnail" alt="Game Preview" class="card-img-popup">
+                        </div>
+
+                        <!-- Leaderboard Placeholder -->
+                        <div class="leaderboard">
+                            <p class="leaderboard-text">Leaderboard</p>
+                            <ol class="leaderboard-items">
+                                <li>Kinser</li>
+                                <li>Chris</li>
+                                <li>Jackson</li>
+                                <li>Josh</li>
+                                <li>Joe</li>
+                                <li>Ryan</li>
+                                <li>David</li>
+                                <li>Sophia</li>
+                                <li>Bob</li>
+                                <li>Alice</li>
+                            </ol> 
+                            <p class="text-muted">Play Count: @game.PlayCount</p>
+                            <!-- Play Button -->
+                            <div class="play-button">
+                                <a href="@Url.Action("Play", "Games", new { id = game.Id })">
+                                    <button class="btn btn-primary">Play</button>
+                                </a>
+                            </div>
+                        </div>
                     </span>
                 </div>
+
             </div>
         </div>
-        <!--
-        <div class="col-sm-3 d-flex">
-            <div class="card">
-                <div class="popup" onclick="myFunction()">
-                    <img src="@game.Thumbnail" class="card-img-top">
-                    <h5 class="card-title">@game.Title</h5>
-                    <span class="popuptext" id="myPopup">
-                        <a href="@Url.Action("Play", "Games", new { id = game.Id })" style="text-decoration: none;">
-                            Play
-                        </a>
-                        <p class="card-text"><small class="text-muted">@game.Description</small></p>
-                        <p class="text-muted">Play Count: @game.PlayCount</p>
-                    </span>
-                </div>
-            </div>
-        </div>-->
     }
+
 </div>
 <script>
     function closePopup(event, gameId) {

@@ -45,6 +45,9 @@ namespace BucStop.Models
         [Required]
         public string Thumbnail { get; set; }
 
+        //The animated gif preview
+        public string Preview { get; set; }
+
         public int PlayCount { get; set; }
 
         /*public async Task OnGet([FromServices] MicroClient microClient)

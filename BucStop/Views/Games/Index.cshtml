@@ -23,19 +23,34 @@
 
                         <!-- Leaderboard Placeholder -->
                         <div class="leaderboard">
+@*                             <p class="leaderboard-text">Leaderboard</p>
+                            <p class="leaderboard-text">@game.Initials</p>
+                            <p class="leaderboard-text">@game.HighScores</p> *@
+
                             <p class="leaderboard-text">Leaderboard</p>
-                            <ol class="leaderboard-items">
-                                <li>Kinser</li>
-                                <li>Chris</li>
-                                <li>Jackson</li>
-                                <li>Josh</li>
-                                <li>Joe</li>
-                                <li>Ryan</li>
-                                <li>David</li>
-                                <li>Sophia</li>
-                                <li>Bob</li>
-                                <li>Alice</li>
-                            </ol> 
+
+                            @{
+                                var initials = game.Initials.Split(',');
+                                var highScores = game.HighScores.Split(',');
+                            }
+
+                            @if (initials.Length == highScores.Length)
+                            {
+                                <ol>
+                                    @for (int i = 0; i < initials.Length; i++)
+                                    {
+                                        <li style="color: black;">
+                                            @initials[i]: @highScores[i]
+                                        </li>
+                                    }
+                                </ol>
+                            }
+                            else
+                            {
+                                <p class="error-text">Error: Initials and HighScores arrays have different lengths.</p>
+                            }
+
+
                             <p class="text-muted">Play Count: @game.PlayCount</p>
                             <!-- Play Button -->
                             <div class="play-button">

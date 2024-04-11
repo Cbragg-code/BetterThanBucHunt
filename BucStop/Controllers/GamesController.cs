@@ -79,6 +79,9 @@ namespace BucStop.Controllers
                     game.HowTo = info.HowTo;
                     game.DateAdded = info.DateAdded;
                     game.Description = $"{info.Description} \n {info.DateAdded}";
+                    //skh added here
+                    game.Initials = info.Initials;
+                    game.HighScores = info.HighScores;
                 }
             }
 

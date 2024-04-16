@@ -13,9 +13,11 @@ namespace BucStop.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly GameService _gameService;
+        private readonly MicroClient _httpClient;
 
-        public HomeController(ILogger<HomeController> logger, GameService games)
+        public HomeController(MicroClient AUclient, ILogger<HomeController> logger, GameService games)
         {
+            _httpClient = AUclient;
             _logger = logger;
             _gameService = games;
         }
@@ -46,10 +48,11 @@ namespace BucStop.Controllers
             return View();
         }
 
-        //Takes the user to the about us page.
-        public IActionResult About()
+        // Pulls the About Us string from MicroClient and passes it as a parameter into the view
+        public async Task<IActionResult> About()
         {
-            return View();
+            string aboutUs = await _httpClient.GetAboutUsAsync();
+            return View("About", aboutUs);
         }
 
         //If something goes wrong, this will take the user to a page explaining the error.

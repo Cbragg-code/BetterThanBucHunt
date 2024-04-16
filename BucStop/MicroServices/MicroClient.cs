@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -26,7 +27,7 @@ namespace BucStop
         {
             try
             {
-                var responseMessage = await this.client.GetAsync("/Micro");
+                var responseMessage = await this.client.GetAsync("/Micro/games");
 
                 if (responseMessage != null)
                 {
@@ -40,6 +41,25 @@ namespace BucStop
             }
             return new GameInfo[] { };
 
+        }
+
+        // Retrieves About Us string from microservice
+        public async Task<string> GetAboutUsAsync()
+        {
+            try
+            {
+                var responseMessage = await this.client.GetAsync("/Micro/aboutus");
+
+                if (responseMessage != null && responseMessage.IsSuccessStatusCode)
+                {
+                    return await responseMessage.Content.ReadAsStringAsync();
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return null;
         }
     }
 }

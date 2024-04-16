@@ -20,7 +20,7 @@ namespace BucStop.Services
             //jsonFilePath = Path.Combine(webHostEnvironment.WebRootPath, "playcount.json");
 
             //We used this file path to try and get playcounts to persist
-            jsonFilePath = "playcount.json";
+            jsonFilePath = "/app/Data/playcount.json";
             LoadPlayCounts();
         }
 

@@ -14,7 +14,19 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    # Build BucStop
+    - name: Build BucStop
+      run: dotnet build BucStop
       
-      # Run regression test
+    # Run regression test
     - name: Run Regression Test
       run: dotnet test BucStop/BucStop.csproj --filter FullyQualifiedName=BucStop.Tests.RegressionTest.NavBucStop

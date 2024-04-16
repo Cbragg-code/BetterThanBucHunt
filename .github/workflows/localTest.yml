@@ -1,11 +1,10 @@
 name: Testing Pipeline
-
+# when changes are pushed into Dev run the workflow
 on:
-  pull_request:
-    types: [opened]
+  push:
     branches:
       - Dev
-
+  # run manually when necessary
   workflow_dispatch:
   
 jobs:

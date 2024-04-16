@@ -27,6 +27,7 @@ namespace BucStop.Tests
             options.AddArgument("--headless"); // Make Chrome run without a GUI
             options.AddArgument("--ignore-certificate-errors"); //Ignore any untrusted certificate errors
             driver = new ChromeDriver(options);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10); // Set page load timeout to 10 seconds
 
 
             bool connected = false;

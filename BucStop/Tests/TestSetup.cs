@@ -14,6 +14,7 @@ namespace BucStop.Tests
             "https://localhost:7182/"
         };
 
+        protected string baseURL = "";
 
         /// <summary>
         /// Immediately before each test initialize the driver and options.
@@ -35,6 +36,7 @@ namespace BucStop.Tests
                     driver.Navigate().GoToUrl(url);
                     if (driver.Url.StartsWith(url))
                     {
+                        baseURL = url;
                         connected = true;
                         break;
                     }

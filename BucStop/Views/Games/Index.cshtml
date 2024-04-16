@@ -21,11 +21,8 @@
                             <img src="@game.Preview" alt="Game Preview" class="card-img-popup">
                         </div>
 
-                        <!-- Leaderboard Placeholder -->
+                        <!-- Leaderboard -->
                         <div class="leaderboard">
-@*                             <p class="leaderboard-text">Leaderboard</p>
-                            <p class="leaderboard-text">@game.Initials</p>
-                            <p class="leaderboard-text">@game.HighScores</p> *@
 
                             <p class="leaderboard-text">Leaderboard</p>
 
@@ -33,13 +30,13 @@
                                 var initials = game.Initials.Split(',');
                                 var highScores = game.HighScores.Split(',');
                             }
-
+                            <!-- Populates leaderboard -->
                             @if (initials.Length == highScores.Length)
                             {
-                                <ol>
+                                <ol class="leaderboard-items">
                                     @for (int i = 0; i < initials.Length; i++)
                                     {
-                                        <li style="color: black;">
+                                        <li>
                                             @initials[i]: @highScores[i]
                                         </li>
                                     }

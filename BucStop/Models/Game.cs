@@ -50,6 +50,7 @@ namespace BucStop.Models
 
         public int PlayCount { get; set; }
 
+        //Leaderboard info
         public string HighScores { get; set; }
         public string Initials { get; set; }
 

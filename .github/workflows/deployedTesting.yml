@@ -1,4 +1,4 @@
-name: Testing Pipeline
+name: Test Staging
 # when changes are pushed into Dev run the workflow
 on:
   push:

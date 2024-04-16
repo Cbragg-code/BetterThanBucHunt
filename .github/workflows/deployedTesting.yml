@@ -1,1 +1,20 @@
-
+name: Testing Pipeline
+# when changes are pushed into Dev run the workflow
+on:
+  push:
+    branches:
+      - PBI-146
+  # run manually when necessary
+  workflow_dispatch:
+  
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+      # Run regression test
+    - name: Run Regression Test
+      run: dotnet test BucStop/BucStop.csproj --filter FullyQualifiedName=BucStop.Tests.RegressionTest.NavBucStop

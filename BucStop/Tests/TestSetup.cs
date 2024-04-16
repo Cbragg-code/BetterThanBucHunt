@@ -7,14 +7,15 @@ namespace BucStop.Tests
     public class TestSetup
     {
         protected IWebDriver driver;
+
+        protected string baseUrl = "";
+
         protected List<string> baseUrls = new List<string>
         {
             "http://3.142.88.34/",
             "http://18.233.180.198/",
             "https://localhost:7182/"
         };
-
-        protected string baseURL = "";
 
         /// <summary>
         /// Immediately before each test initialize the driver and options.
@@ -36,7 +37,7 @@ namespace BucStop.Tests
                     driver.Navigate().GoToUrl(url);
                     if (driver.Url.StartsWith(url))
                     {
-                        baseURL = url;
+                        baseUrl = url;
                         connected = true;
                         break;
                     }

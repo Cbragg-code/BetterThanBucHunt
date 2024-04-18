@@ -50,6 +50,10 @@ namespace BucStop.Models
 
         public int PlayCount { get; set; }
 
+        //Leaderboard info
+        public string HighScores { get; set; }
+        public string Initials { get; set; }
+
         /*public async Task OnGet([FromServices] MicroClient microClient)
         {
             Info = await microClient.GetGamesAsync  ();

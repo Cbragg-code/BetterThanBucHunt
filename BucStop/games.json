@@ -5,8 +5,10 @@
     "Content": "/js/snake.js",
     "Description": "Snake Description",
     "Thumbnail": "/images/snake.jpg",
-    "Preview":  "/images/snake-prev.gif",
-    "PlayCount": 0
+    "Preview": "/images/snake-prev.gif",
+    "PlayCount": 0,
+    "Initials": "HJK, LMN, OPQ, RST",
+    "HighScores": "115,82,97,63"
   },
   {
     "Id": 2,
@@ -15,7 +17,9 @@
     "Description": "Tetris Description",
     "Thumbnail": "/images/tetris.jpg",
     "Preview": "/images/tetris-prev.gif",
-    "PlayCount": 0
+    "PlayCount": 0,
+    "Initials": "UVW, XYZ, ABC, DEF",
+    "HighScores": "88,105,72,94"
   },
   {
     "Id": 3,
@@ -24,6 +28,8 @@
     "Description": "Pong Description",
     "Thumbnail": "/images/pong.jpg",
     "Preview": "/images/pong-prev.gif",
-    "PlayCount": 0
+    "PlayCount": 0,
+    "Initials": "GHI, JKL, MNO, PQRS",
+    "HighScores": "102,79,88,91"
   }
 ]

@@ -12,9 +12,9 @@ namespace BucStop.Tests
 
         protected List<string> baseUrls = new List<string>
         {
-            "http://3.142.88.34/",
-            "http://18.233.180.198/",
-            "https://localhost:7182/"
+            "http://13.59.23.209/", //staging
+            "http://18.233.180.198/", //deployment
+            "https://localhost:7182/" //local build
         };
 
         /// <summary>

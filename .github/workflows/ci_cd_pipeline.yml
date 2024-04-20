@@ -11,7 +11,12 @@ jobs:
   ec2-start:
     runs-on: ubuntu-latest
     steps:
-      # ... (AWS credential configuration steps)
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
       - name: Start EC2 Instance
         run: aws ec2 start-instances --instance-ids ${{ secrets.INSTANCE_ID }}
       - name: Wait for the instance to enter the running state
@@ -26,6 +31,7 @@ jobs:
               sleep 10
             fi
           done
+
         
   docker-build:
     runs-on: ubuntu-latest

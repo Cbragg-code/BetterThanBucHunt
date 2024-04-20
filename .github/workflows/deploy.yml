@@ -34,7 +34,7 @@ jobs:
       - name: Deploy to AWS EC2
         run: |
           # Create a file for the SSH private key
-          echo "${{ secrets.SSH_PK }}" > BucStop2024.pem
+          echo "${{ secrets.SSH_KEY }}" > BucStop2024.pem
           # Secure the key file
           chmod 400 BucStop2024.pem
           # Use SSH to run your deployment script on the remote server

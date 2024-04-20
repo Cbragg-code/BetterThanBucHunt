@@ -38,6 +38,6 @@ jobs:
           # Secure the key file
           chmod 600 ssh_key.pem
           # Use SSH to run your deployment script on the remote server
-          ssh -i ./ssh_key.pem ubuntu@${{ secrets.SSH_HOST }}
+          ssh -i ./ssh_key.pem ec2-user@${{ secrets.SSH_HOST }}
           ./redployBucstop.sh
 

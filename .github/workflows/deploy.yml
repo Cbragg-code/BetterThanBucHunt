@@ -2,29 +2,25 @@ name: Deploy Pipeline
 
 #On pull from main branch and request is closed
 on:
-  pull_request:
+  push:
     branches:
-      - main
-    types:
-      - closed
-
+      - PBI-146
+      
+  workflow_dispatch:
 #If merged = true run on server, checkout main branch
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: main
-
+        
         #Log into docker hub with username and password 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKER_UNAME }}
+          password: ${{ secrets.DOCKER_PW }}
 
         #Build and push the docker file with latest
       - name: Build and Push Docker Image
@@ -33,15 +29,15 @@ jobs:
           context: .
           file: ./BucStop/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/bucstop:latest
+          tags: ${{ secrets.DOCKER_UNAME }}/bucstop:latest
 
         #Run deployment script(see deployment document)
       - name: Run Deploy script on the server
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASS }}
+          username: ${{ secrets.SSH_UNAME }}
+          password: ${{ secrets.SSH_PW }}
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd scripts

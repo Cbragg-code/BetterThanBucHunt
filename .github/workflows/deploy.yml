@@ -38,7 +38,6 @@ jobs:
           # Secure the key file
           chmod 600 BucStop2024.pem
           # Use SSH to run your deployment script on the remote server
-          ssh -o "StrictHostKeyChecking=accept-new" -i BucStop2024.pem ec2-user@${{ secrets.SSH_HOST }}
-          ./redeployBucstop.sh
+          ssh -o "StrictHostKeyChecking=accept-new" -i BucStop2024.pem ec2-user@${{ secrets.SSH_HOST }} './redeployBucstop.sh'
 
 

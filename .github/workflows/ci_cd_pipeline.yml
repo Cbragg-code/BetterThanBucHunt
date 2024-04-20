@@ -1,0 +1,55 @@
+name: Test and Deploy Pipeline
+
+on:
+  push:
+    branches:
+      - PBI-146
+  workflow_dispatch:
+
+jobs:
+  docker-build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_UNAME }}
+          password: ${{ secrets.DOCKER_PW }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./BucStop/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_UNAME }}/bucstop:latest
+
+      - name: Deploy to AWS EC2
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > BucStop2024.pem
+          chmod 600 BucStop2024.pem
+          ssh -o "StrictHostKeyChecking=accept-new" -i BucStop2024.pem ec2-user@${{ secrets.SSH_HOST }} './redeployBucstop.sh'
+
+  run-tests:
+    runs-on: ubuntu-latest
+    needs: docker-build-and-deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build BucStop
+        run: dotnet build BucStop
+
+      - name: Run Regression Test
+        run: dotnet test BucStop/BucStop.csproj --filter FullyQualifiedName=BucStop.Tests.RegressionTest.NavBucStop

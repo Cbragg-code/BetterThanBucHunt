@@ -21,19 +21,9 @@ jobs:
         run: aws ec2 start-instances --instance-ids ${{ secrets.INSTANCE_ID }}
       - name: Wait for the instance to enter the running state
         run: aws ec2 wait instance-running --instance-ids ${{ secrets.INSTANCE_ID }}
-      - name: Wait for the instance to be fully operational
-        run: |
-          for i in {1..60}; do  # 60 attempts with a 10-second pause between each
-            if ssh -o "StrictHostKeyChecking=accept-new" -i BucStop2024.pem ec2-user@${{ secrets.SSH_HOST }} 'echo "EC2 instance is up and running"'; then
-              break
-            else
-              echo "Waiting for EC2 instance to initialize..."
-              sleep 10
-            fi
-          done
-
-        
+      
   docker-build:
+    needs: ec2-start
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

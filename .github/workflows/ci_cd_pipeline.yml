@@ -15,7 +15,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_IAM }}
-          aws-secret-access-key: ${{ secrets.AWS_IAM_PW }}
+          aws-secret-access-key: ${{ secrets.IAM_TOKEN }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Start EC2 Instance
         run: aws ec2 start-instances --instance-ids ${{ secrets.INSTANCE_ID }}
@@ -82,7 +82,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_IAM }}
-          aws-secret-access-key: ${{ secrets.AWS_IAM_PW }}
+          aws-secret-access-key: ${{ secrets.IAM_TOKEN }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Stop EC2 Instance
         run: aws ec2 stop-instances --instance-ids ${{ secrets.INSTANCE_ID }}

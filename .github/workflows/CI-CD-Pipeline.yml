@@ -1,16 +1,18 @@
-name: Test and Deploy Pipeline
+name: CI/CD Pipeline
 
+# Triggers for the pipeline
 on:
   push:
     branches:
-      - StageTesting
-  workflow_dispatch:
+      - StageTesting # Run the pipeline on pushes to StageTesting branch
+  workflow_dispatch: # Allows manual triggering of the workflow
 
 jobs:
-  
+  # Job to start the EC2 instance
   ec2-start:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Specify the runner environment
     steps:
+      # Configure AWS credentials from secrets
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -18,69 +20,85 @@ jobs:
           aws-secret-access-key: ${{ secrets.ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       
+      # Start the EC2 instance using the AWS CLI
       - name: Start EC2 Instance
         run: aws ec2 start-instances --instance-ids ${{ secrets.INSTANCE_ID }}
       
+      # Wait for the EC2 instance to be fully running
       - name: Wait for the instance to enter the running state
         run: aws ec2 wait instance-running --instance-ids ${{ secrets.INSTANCE_ID }}
       
+  # Job to build and push Docker image after EC2 is started
   docker-build:
-    needs: ec2-start
+    needs: ec2-start # Depends on ec2-start job
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repository code
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Login to Docker Hub to enable pushing images
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_UNAME }}
           password: ${{ secrets.DOCKER_PW }}
 
+      # Build and push the Docker image
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./BucStop/Dockerfile
+          context: . # Docker build context
+          file: ./BucStop/Dockerfile # Dockerfile path
           push: true
-          tags: ${{ secrets.DOCKER_UNAME }}/bucstop:latest
+          tags: ${{ secrets.DOCKER_UNAME }}/bucstop:latest # Image tag
 
+  # Job to deploy the application on AWS EC2
   aws-deploy:
     needs: docker-build
     runs-on: ubuntu-latest
     steps:
+      # Deploy application using a shell script via SSH
       - name: Deploy to AWS EC2
         run: |
           echo "${{ secrets.SSH_KEY }}" > BucStop2024.pem
           chmod 600 BucStop2024.pem
           ssh -o "StrictHostKeyChecking=accept-new" -i BucStop2024.pem ec2-user@${{ secrets.SSH_HOST }} './redeployBucstop.sh'
           
+  # Job to run tests on the deployed application
   run-tests:
     needs: aws-deploy
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repository code
       - name: Checkout
         uses: actions/checkout@v3
 
+      # Setup .NET Core SDK
       - name: Install .NET Core
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.x
 
+      # Restore dependencies specified in the project file
       - name: Restore dependencies
         run: dotnet restore
 
+      # Build the .NET project
       - name: Build
         run: dotnet build BucStop
 
+      # Run regression tests
       - name: Run Regression Test
         run: dotnet test BucStop/BucStop.csproj --filter FullyQualifiedName=BucStop.Tests.RegressionTest.NavBucStop
   
+  # Job to stop the EC2 instance after testing is complete
   ec2-stop:
     needs: run-tests
     runs-on: ubuntu-latest
     if: always() # This ensures the instance is stopped even if previous steps fail
     steps:
+      # Configure AWS credentials from secrets
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -88,6 +106,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       
+      # Stop the EC2 instance using the AWS CLI
       - name: Stop EC2 Instance
         run: aws ec2 stop-instances --instance-ids ${{ secrets.INSTANCE_ID }}
+
         
